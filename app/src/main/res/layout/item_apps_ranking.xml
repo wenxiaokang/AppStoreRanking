@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_rank_no"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="100"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          >
+            <com.store.appstoreranking.customview.RoundImageView
+                android:scaleType="centerCrop"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:roundHeight="10dp"
+                app:roundWidth="10dp"
+                android:id="@+id/iv_app_icon_square"/>
+            <com.store.appstoreranking.customview.RoundImageView
+                android:scaleType="centerCrop"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:roundHeight="30dp"
+                app:roundWidth="30dp"
+                android:id="@+id/iv_app_icon"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:ellipsize="end"
+                android:id="@+id/iv_app_name"
+                android:textColor="@color/deepGray"
+                android:textSize="13sp"
+                android:text=""
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/tv_app_category"
+                android:textColor="@color/lightGray"
+                android:textSize="11sp"
+                android:text=""
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <RatingBar
+                    android:id="@+id/rb_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:progressTint="@color/colorPrimary"
+                    android:isIndicator="true"
+                    android:maxHeight="20dp"
+                    android:numStars="5"
+                    android:rating="3"
+                    android:stepSize="0.5" />
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:text="(1111)"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/lightGray"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line"
+        android:layout_marginLeft="@dimen/padding_comment"
+        android:layout_marginRight="@dimen/padding_comment"
+        android:layout_marginTop="@dimen/padding_comment"
+        android:background="@color/colorLine"/>
+
+</LinearLayout>

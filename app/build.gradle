@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.store.appstoreranking"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // <!--------------------------------    架构相关    ---------------------------------->
+    //rxbinding 处理事件防抖相关功能
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.ext.rxbindingVersion"
+    //RxLife生命周期绑定
+    implementation "com.trello.rxlifecycle2:rxlifecycle-android:$rootProject.ext.rxlifecycleVersion"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-components:$rootProject.ext.rxlifecycleVersion"
+    //结合RxJava2使用
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.rxjavaAdapterVersion"
+    //线程切换
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroid"
+
+    // <!--------------------------------    网络请求相关    ---------------------------------->
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpVersion"
+    //解析数据，Gson方式json
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.gsonVersion"
+    //网络日志输出
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
+
+
+    // <!--------------------------------    工具相关    ---------------------------------->
+    //黄油刀
+    implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
+    //adapter
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.ext.baseAdapterVersion"
+    //屏幕适配
+    implementation "me.jessyan:autosize:$rootProject.ext.autoSizeVersion"
+    //图片加载 Glide glideVersion
+    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.ext.glideVersion"
+    //谷歌刷新
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.ext.swiperefreshlayoutVersion"
+    //recyclerview
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recyclerViewVersion"
+
+
+
+}
