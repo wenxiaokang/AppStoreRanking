@@ -11,6 +11,7 @@ import android.content.ContentValues;
 public class AppsModel {
     public AppsModel() {
     }
+
     //AppEntry--->AppsModel
     public AppsModel(AppEntry appEntry,AppDetailEntry.ResultsModel resultsModel) {
         this.name = appEntry.getImName().getLabel();

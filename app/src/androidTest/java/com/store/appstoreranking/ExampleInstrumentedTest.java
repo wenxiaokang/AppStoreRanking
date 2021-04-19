@@ -44,8 +44,7 @@ public class ExampleInstrumentedTest {
     private static final int ROW_LIMIT = 10;
     private static final int ROW_RANKING_LIMIT = 100;
     private static final int THREAD_COUNT = 100;
-
-    private List<AppsModel> appsRecommendList = new ArrayList<>();
+    private static final int SINGLE_COUNT = 1;
 
 
     private ApiService apiService;
@@ -54,6 +53,7 @@ public class ExampleInstrumentedTest {
     @Before
     public void setUp() {
         apiService = creatApiService();
+        dbHelper = new DBHelper(InstrumentationRegistry.getTargetContext());
     }
 
     /**
@@ -63,10 +63,12 @@ public class ExampleInstrumentedTest {
      */
     @Test
     public void testGetRecommendApi() {
+        countDownLatch = new CountDownLatch(SINGLE_COUNT);
         NetUtils.subscribe(apiService.getTopGrossingApplications(String.valueOf(ROW_LIMIT)), null,
                 new ResponseResultListener<AppsRankingEntry>() {
                     @Override
                     public void success(AppsRankingEntry appRankingInfoModel) {
+                        Log.e(TAG,"testGetRecommendApi");
                         List<AppEntry> appEntries = null;
                         if (appRankingInfoModel != null) {
                             appEntries = appRankingInfoModel.getFeed().getEntry();
@@ -76,6 +78,7 @@ public class ExampleInstrumentedTest {
                         } else {
                             fail();
                         }
+                        countDownLatch.countDown();
                     }
 
                     @Override
@@ -84,7 +87,14 @@ public class ExampleInstrumentedTest {
                         fail();
                     }
                 });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(SINGLE_COUNT, 1);
     }
+
 
     private CountDownLatch countDownLatch = null;
 
@@ -105,6 +115,7 @@ public class ExampleInstrumentedTest {
                             new ResponseResultListener<AppsRankingEntry>() {
                                 @Override
                                 public void success(AppsRankingEntry appRankingInfoModel) {
+                                    Log.e(TAG,"testGetRecommendApiMuiltThread");
                                     List<AppEntry> appEntries = null;
                                     if (appRankingInfoModel != null) {
                                         appEntries = appRankingInfoModel.getFeed().getEntry();
@@ -141,8 +152,8 @@ public class ExampleInstrumentedTest {
      * 预期结果：获取100条数据,并将数据存储到数据库
      */
     @Test
-    public void testGetRankingApi(){
-        dbHelper = new DBHelper(InstrumentationRegistry.getTargetContext());
+    public void testGetRankingApi() {
+        countDownLatch = new CountDownLatch(SINGLE_COUNT);
         NetUtils.subscribe(apiService.getTopFreeApplications(String.valueOf(ROW_RANKING_LIMIT)), null,
                 new ResponseResultListener<AppsRankingEntry>() {
                     @Override
@@ -156,10 +167,17 @@ public class ExampleInstrumentedTest {
                         fail();
                     }
                 });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void getAppDetail(List<AppEntry> appsModel) {
-         List<List<AppsModel>> appArrayList = new ArrayList<>();
+        List<List<AppsModel>> appArrayList = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < appsModel.size(); i++) {
             if (i < appsModel.size() - 1) {
@@ -177,22 +195,23 @@ public class ExampleInstrumentedTest {
                     public void success(AppDetailEntry appDetailEntry) {
                         appArrayList.clear();
                         // 将数据分成每页10条
-                        int pageNum = (appsModel.size() - 1) /  + 1;
+                        int pageNum = (appsModel.size() - 1) / ROW_LIMIT+1;
                         for (int i = 0; i < pageNum; i++) {
                             ArrayList<AppsModel> appEntries = new ArrayList<>();
                             for (int i1 = 0; i1 < ROW_LIMIT; i1++) {
-                                    AppEntry appEntry = appsModel.get(i1 + ROW_LIMIT * i);
-                                    AppDetailEntry.ResultsModel resultsModel = appDetailEntry.getResults().get(i1 + ROW_LIMIT * i);
-                                    AppsModel appsModel1 = new AppsModel(appEntry, resultsModel);
-                                    appEntries.add(appsModel1);
+                                AppEntry appEntry = appsModel.get(i1 + ROW_LIMIT * i);
+                                AppDetailEntry.ResultsModel resultsModel = appDetailEntry.getResults().get(i1 + ROW_LIMIT * i);
+                                AppsModel appsModel1 = new AppsModel(appEntry, resultsModel);
+                                appEntries.add(appsModel1);
                             }
                             appArrayList.add(appEntries);
                         }
                         if (dbHelper.addApps(appArrayList.get(0), DBHelper.TABLE_RANKING)) {
-                            fail();
-                        }else {
                             assertTrue(true);
+                        } else {
+                            fail("数据插入失败");
                         }
+                        countDownLatch.countDown();
                     }
 
                     @Override
@@ -201,6 +220,7 @@ public class ExampleInstrumentedTest {
                         fail();
                     }
                 });
+
     }
 
 

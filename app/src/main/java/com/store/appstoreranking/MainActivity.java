@@ -1,5 +1,6 @@
 package com.store.appstoreranking;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,13 +56,22 @@ public class MainActivity extends BaseMvpActivity implements HomeView {
 
     @Override
     public void init() {
-        // 设置状态栏字体黑色
-        StatusBarUtil.setTransparent(this);
-        StatusBarUtil.setLightMode(this);
+        initView();
         initRecyclerView();
         swip.setRefreshing(true);
         homePresenter.getDBData();
         initListen();
+    }
+
+    /**
+     * 初始化UI
+     */
+    private void initView() {
+        // 设置状态栏字体黑色
+        StatusBarUtil.setTransparent(this);
+        StatusBarUtil.setLightMode(this);
+        //去掉输入的下划线
+        svApps.setBackgroundColor(Color.TRANSPARENT);
     }
 
     /**

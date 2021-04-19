@@ -19,11 +19,7 @@ public class BasePresenter<V> {
     protected BaseMvpActivity mContext;
     protected V mView;
 
-    protected int pageNum = 30;
 
-    public int getPageNum() {
-        return pageNum;
-    }
 
     private LifecycleProvider<ActivityEvent> provider;
 

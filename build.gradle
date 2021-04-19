@@ -39,7 +39,6 @@ ext {
     supportVersion = "28.0.3"
     versionCode = 1
     versionName = "1.0.${versionCode}"
-
     rxbindingVersion = '2.0.0'
     rxlifecycleVersion = "2.0.1"
     retrofitVersion = "2.3.0"

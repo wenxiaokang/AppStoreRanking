@@ -100,7 +100,6 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param type 0-推荐 1-排行
      */
     public List<AppsModel> queryApps(int type) {
-
         Cursor c = null;
         SQLiteDatabase db = null;
         List<AppsModel> result = new ArrayList<>();
@@ -164,10 +163,9 @@ public class DBHelper extends SQLiteOpenHelper {
         boolean isSuccess = true;
         for (AppsModel appsModel : appsModels) {
             if (addApps(appsModel,type)==-1) {
-                return false;
+                isSuccess = false;
             }
         }
         return isSuccess;
-
     }
 }
